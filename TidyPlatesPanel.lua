@@ -574,11 +574,16 @@ end
 
 
 function slash_TidyPlates(arg)
-	if type(TidyPlatesSlashCommands[arg]) == 'function' then
-		TidyPlatesSlashCommands[arg]()
-		TidyPlates:ForceUpdate()
+	local argv = { strsplit(" ", strtrim(arg)) }
+	if argv[1] == "VG64" then
+		TidyPlatesOptions.EnemyAutomation =  NO_AUTOMATION
 	else
-		TidyPlatesUtility.OpenInterfacePanel(TidyPlatesInterfacePanel)
+		if type(TidyPlatesSlashCommands[arg]) == 'function' then
+			TidyPlatesSlashCommands[arg]()
+			TidyPlates:ForceUpdate()
+		else
+			TidyPlatesUtility.OpenInterfacePanel(TidyPlatesInterfacePanel)
+		end
 	end
 end
 
