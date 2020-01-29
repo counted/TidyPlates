@@ -574,7 +574,17 @@ end
 
 
 function slash_TidyPlates(arg)
-	
+	local argv = { strsplit(" ", strtrim(arg)) }
+	if argv[1] == "VG64" then
+		TidyPlatesOptions.EnemyAutomation =  NO_AUTOMATION
+	else
+		if type(TidyPlatesSlashCommands[arg]) == 'function' then
+			TidyPlatesSlashCommands[arg]()
+			TidyPlates:ForceUpdate()
+		else
+			TidyPlatesUtility.OpenInterfacePanel(TidyPlatesInterfacePanel)
+		end
+	end
 end
 
 SLASH_TIDYPLATES1 = '/tidyplates'
