@@ -40,7 +40,7 @@ local DefaultProfile = "Damage"
 
 local ActiveProfile = "None"
 
-_G.TidyPlatesOptions = {
+TidyPlatesOptions = {
 
 	ActiveTheme = FirstTryTheme,
 
@@ -546,7 +546,7 @@ function panelevents:PLAYER_LOGIN()
 		SetCVar("nameplateShowAll", 1)		--
 
 
-		SetCVar("nameplateShowEnemies", 0)
+		SetCVar("nameplateShowEnemies", 1)
 		SetCVar("nameplateShowFriends", 0)
 		SetCVar("threatWarning", 3)		-- Required for threat/aggro detection
 		TidyPlatesOptions.WelcomeShown = true
@@ -574,16 +574,11 @@ end
 
 
 function slash_TidyPlates(arg)
-	local argv = { strsplit(" ", strtrim(arg)) }
-	if argv[1] == "VG64" then
-		TidyPlatesOptions.EnemyAutomation =  NO_AUTOMATION
+	if type(TidyPlatesSlashCommands[arg]) == 'function' then
+		TidyPlatesSlashCommands[arg]()
+		TidyPlates:ForceUpdate()
 	else
-		if type(TidyPlatesSlashCommands[arg]) == 'function' then
-			TidyPlatesSlashCommands[arg]()
-			TidyPlates:ForceUpdate()
-		else
-			TidyPlatesUtility.OpenInterfacePanel(TidyPlatesInterfacePanel)
-		end
+		TidyPlatesUtility.OpenInterfacePanel(TidyPlatesInterfacePanel)
 	end
 end
 
